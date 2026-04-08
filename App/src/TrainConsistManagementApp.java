@@ -1,21 +1,24 @@
-import java.util.LinkedHashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
-public class UC5PreserveInsertionOrder {
+public class UC6MapBogietoCapacity {
 
     public static void main(String[] args) {
 
-        System.out.println("=== Train Consist Management App ===");
+        System.out.println("=== Bogie Capacity Management App ===");
 
-        LinkedHashSet<String> trainFormation = new LinkedHashSet<>();
+        Map<String, Integer> bogieCapacities = new LinkedHashMap<>();
 
-        trainFormation.add("Engine");
-        trainFormation.add("Sleeper");
-        trainFormation.add("Cargo");
-        trainFormation.add("Guard");
+        bogieCapacities.put("Engine", 0);
+        bogieCapacities.put("Sleeper", 72);
+        bogieCapacities.put("Cargo", 100);
+        bogieCapacities.put("Guard", 10);
 
-        trainFormation.add("Sleeper");
+        bogieCapacities.put("Sleeper", 80);
 
-        System.out.println("Final Train Formation:");
-        System.out.println(trainFormation);
+        System.out.println("Final Bogie Capacities:");
+        for (Map.Entry<String, Integer> entry : bogieCapacities.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
     }
 }
