@@ -1,24 +1,50 @@
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
-public class UC6MapBogietoCapacity {
+class Bogie {
+    private String name;
+    private int capacity;
+
+    public Bogie(String name, int capacity) {
+        this.name = name;
+        this.capacity = capacity;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    @Override
+    public String toString() {
+        return name + " (" + capacity + " seats)";
+    }
+}
+
+public class UC7SortBogiesByCapacity {
 
     public static void main(String[] args) {
 
-        System.out.println("=== Bogie Capacity Management App ===");
+        System.out.println("=== Train Consist Management App ===");
+        System.out.println("Sorting Bogies by Capacity using Comparator\n");
 
-        Map<String, Integer> bogieCapacities = new LinkedHashMap<>();
+        List<Bogie> passengerBogies = new ArrayList<>();
 
-        bogieCapacities.put("Engine", 0);
-        bogieCapacities.put("Sleeper", 72);
-        bogieCapacities.put("Cargo", 100);
-        bogieCapacities.put("Guard", 10);
+        passengerBogies.add(new Bogie("Sleeper", 72));
+        passengerBogies.add(new Bogie("AC Chair", 56));
+        passengerBogies.add(new Bogie("First Class", 24));
+        passengerBogies.add(new Bogie("General", 90));
 
-        bogieCapacities.put("Sleeper", 80);
+        System.out.println("Before Sorting:");
+        passengerBogies.forEach(System.out::println);
 
-        System.out.println("Final Bogie Capacities:");
-        for (Map.Entry<String, Integer> entry : bogieCapacities.entrySet()) {
-            System.out.println(entry.getKey() + ": " + entry.getValue());
-        }
+        passengerBogies.sort(Comparator.comparingInt(Bogie::getCapacity).reversed());
+
+        System.out.println("\nAfter Sorting (Highest Capacity First):");
+        passengerBogies.forEach(System.out::println);
     }
 }
