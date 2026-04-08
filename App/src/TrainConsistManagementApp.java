@@ -1,7 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 class Bogie {
     private String name;
@@ -22,36 +20,37 @@ class Bogie {
 
     @Override
     public String toString() {
-        return "Bogie{name='" + name + "', capacity=" + capacity + "}";
+        return name + " (" + capacity + " seats)";
     }
 }
 
-public class UC9GroupBogiesByType {
+public class UC10CountTotalSeats {
 
     public static void main(String[] args) {
 
         System.out.println("=== Train Consist Management App ===");
-        System.out.println("Grouping Bogies by Type using Collectors.groupingBy()\n");
+        System.out.println("Calculating Total Seating Capacity using map() and reduce()\n");
 
         List<Bogie> trainFormation = new ArrayList<>();
         trainFormation.add(new Bogie("Sleeper", 72));
         trainFormation.add(new Bogie("AC Chair", 56));
         trainFormation.add(new Bogie("Sleeper", 72));
         trainFormation.add(new Bogie("First Class", 24));
-        trainFormation.add(new Bogie("AC Chair", 56));
         trainFormation.add(new Bogie("General", 90));
 
-        System.out.println("All Bogies in Train:");
+        System.out.println("Train Composition:");
         trainFormation.forEach(System.out::println);
 
-        Map<String, List<Bogie>> groupedBogies = trainFormation.stream()
-                .collect(Collectors.groupingBy(Bogie::getName));
 
-        System.out.println("\nGrouped Bogie Structure:");
-        groupedBogies.forEach((type, list) -> {
-            System.out.println(type + ": " + list);
-        });
+        int totalSeats = trainFormation.stream()
+                .map(Bogie::getCapacity)
+                .reduce(0, Integer::sum);
 
-        System.out.println("\nVerification: Total unique categories identified: " + groupedBogies.size());
+        System.out.println("\n-------------------------------------");
+        System.out.println("Total Seating Capacity: " + totalSeats);
+        System.out.println("-------------------------------------");
+
+
+        System.out.println("Verification: Original bogie count remains " + trainFormation.size());
     }
 }
