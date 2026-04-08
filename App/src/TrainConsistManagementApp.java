@@ -1,40 +1,48 @@
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.List;
 
-public class UC11 {
+class GoodsBogie {
+    private String type;
+    private String cargo;
+
+    public GoodsBogie(String type, String cargo) {
+        this.type = type;
+        this.cargo = cargo;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getCargo() {
+        return cargo;
+    }
+
+    @Override
+    public String toString() {
+        return type + " [Cargo: " + cargo + "]";
+    }
+}
+
+public class UC12SafetyComplianceCheckforGoodsBogies {
 
     public static void main(String[] args) {
 
         System.out.println("=== Train Consist Management App ===");
-        System.out.println("Input Validation using Regular Expressions (Regex)\n");
 
-        String trainIdPatternString = "TRN-\\d{4}";
-        String cargoCodePatternString = "PET-[A-Z]{2}";
+        List<GoodsBogie> goodsConsist = new ArrayList<>();
+        goodsConsist.add(new GoodsBogie("Rectangular", "Coal"));
+        goodsConsist.add(new GoodsBogie("Cylindrical", "Petroleum"));
+        goodsConsist.add(new GoodsBogie("Box", "Grain"));
+        goodsConsist.add(new GoodsBogie("Cylindrical", "Petroleum"));
 
-        Pattern trainIdPattern = Pattern.compile(trainIdPatternString);
-        Pattern cargoCodePattern = Pattern.compile(cargoCodePatternString);
-
-        String[] testTrainIDs = {"TRN-1234", "TRAIN12", "TRN-123", "TRN-12345"};
-        String[] testCargoCodes = {"PET-AB", "PET-ab", "PET123", "PET-XYZ"};
-
-        System.out.println("--- Validating Train IDs ---");
-        for (String id : testTrainIDs) {
-            Matcher matcher = trainIdPattern.matcher(id);
-            if (matcher.matches()) {
-                System.out.println("Train ID " + id + ": VALID");
-            } else {
-                System.out.println("Train ID " + id + ": INVALID (Format must be TRN-xxxx)");
+        boolean isSafe = goodsConsist.stream().allMatch(bogie -> {
+            if (bogie.getType().equalsIgnoreCase("Cylindrical")) {
+                return bogie.getCargo().equalsIgnoreCase("Petroleum");
             }
-        }
+            return true;
+        });
 
-        System.out.println("\n--- Validating Cargo Codes ---");
-        for (String code : testCargoCodes) {
-            Matcher matcher = cargoCodePattern.matcher(code);
-            if (matcher.matches()) {
-                System.out.println("Cargo Code " + code + ": VALID");
-            } else {
-                System.out.println("Cargo Code " + code + ": INVALID (Format must be PET-XX)");
-            }
-        }
+        System.out.println("Safety Compliance Status: " + (isSafe ? "COMPLIANT" : "NON-COMPLIANT"));
     }
 }
